@@ -2,7 +2,8 @@ import wollok.game.*
 import cultivos.*
 import granja.*
 import aspersor.*
-
+import managerAspersores.*
+import managerMercados.*
 object hector {
 	var property position = game.at(0,0)
 	const property image = "player.png"
@@ -35,7 +36,7 @@ object hector {
 
 	method vender(){
 		self.validarSiEstaEnMercado()
-		granja.mercandoEn(position).comprarProductos(granja.ganaciasDeVender(), granja.plantasCosechadas())
+		managerMercados.mercandoEn(position).comprarProductos(granja.ganaciasDeVender(), granja.plantasCosechadas())
 		billetera += granja.ganaciasDeVender()
 		granja.vaciarAlmacen()
 	}
@@ -45,11 +46,11 @@ object hector {
 	}
 
 	method estaEnMercado(){
-		return granja.hayMercadoEn(position)
+		return managerMercados.hayMercadoEn(position)
 	}
 
 	method plantarAspersor(aspersor){
 		aspersor.plantar(position)
-		granja.agregarAspersor(aspersor)
+		managerAspersores.agregarAspersor(aspersor)
 	}
 }

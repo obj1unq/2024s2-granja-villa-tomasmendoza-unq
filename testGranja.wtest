@@ -1,3 +1,5 @@
+import managerAspersores.*
+import managerMercados.*
 import wollok.game.*
 import cultivos.*
 import hector.*
@@ -34,6 +36,7 @@ describe "Hector regando" {
 	    game.height(10)
 	    game.width(10)
   }
+  
 
   test "Hector no puede regar nada"{
     assert.throwsException({ hector.regar() })
@@ -134,7 +137,7 @@ describe "Hector cosechando y vendiendo"{
 
   }
   test "Hector cosechando, regando y vendiendo trigo" {
-    granja.plantarMercados()
+      managerMercados.plantarMercados()
       const trigo1 = new Trigo() 
       hector.sembrar(trigo1)
       hector.regar()
@@ -146,7 +149,7 @@ describe "Hector cosechando y vendiendo"{
       assert.equals([],granja.plantasCosechadas())
   }
   test "Hector cosechando, regando y vendiendo maiz" {
-    granja.plantarMercados()
+    managerMercados.plantarMercados()
       const maiz = new Maiz() 
       hector.sembrar(maiz)
       hector.regar()
@@ -156,7 +159,7 @@ describe "Hector cosechando y vendiendo"{
       assert.equals([],granja.plantasCosechadas())
   }
   test "Hector cosechando, regando y vendiendo tomaco" {
-    granja.plantarMercados()
+    managerMercados.plantarMercados()
       const tomaco = new Tomaco() 
       hector.sembrar(tomaco)
       hector.cosechar()
@@ -185,7 +188,7 @@ describe "Hector y el aspersor" {
     hector.sembrar(new Maiz())
     hector.position(game.at(3,2))
     hector.sembrar(new Maiz())
-    granja.aspersoresRegar()
+    managerAspersores.aspersoresRegar()
     assert.equals("adult",granja.plantasEn(game.at(4,3)).get(0).estado())
     assert.equals("adult",granja.plantasEn(game.at(4,3)).get(0).estado())
     assert.equals("adult",granja.plantasEn(game.at(4,3)).get(0).estado())
@@ -201,17 +204,17 @@ describe "granja y mercados" {
   }
 
   test "Granja plantando 3 mercados" {
-    granja.plantarMercados()
-    assert.that(granja.hayMercadoEn(game.at(0,0)))
-    assert.that(granja.hayMercadoEn(game.at(3,0)))
-    assert.that(granja.hayMercadoEn(game.at(8,0)))
+    managerMercados.plantarMercados()
+    assert.that(managerMercados.hayMercadoEn(game.at(0,0)))
+    assert.that(managerMercados.hayMercadoEn(game.at(3,0)))
+    assert.that(managerMercados.hayMercadoEn(game.at(8,0)))
   }
 
   test "Mercado en (0,0), intenta comprar maiz y tomaco (precioTotal = 230). Quedandose con 1770 y una lista con [maiz1,tomaco]"{
     const maiz1 = new Maiz(estado = "adult")
     const tomaco = new Tomaco()
-    granja.plantarMercados()
-    const mercado = granja.mercandoEn(game.at(0,0))
+    managerMercados.plantarMercados()
+    const mercado = managerMercados.mercandoEn(game.at(0,0))
     mercado.comprarProductos(230, [maiz1,tomaco])
     assert.equals(1770, mercado.monedas())
     assert.equals([maiz1,tomaco], mercado.productos())
@@ -219,8 +222,8 @@ describe "granja y mercados" {
   test "Mercado en (3,0), intenta comprar maiz y tomaco (precioTotal = 230). pero no puede porque tiene 200s monedas"{
     const maiz1 = new Maiz(estado = "adult")
     const tomaco = new Tomaco()
-    granja.plantarMercados()
-    const mercado = granja.mercandoEn(game.at(3,0))
+    managerMercados.plantarMercados()
+    const mercado = managerMercados.mercandoEn(game.at(3,0))
     assert.throwsException({ mercado.comprarProductos(230, [maiz1,tomaco]) })
 
   }
@@ -233,10 +236,10 @@ describe "Hector y los mercados" {
 	    game.width(10)
   }
   test "Hector cosecha dos maices. Lo vende al mercado de (0,0) por 300" {
-    granja.plantarMercados()
+    managerMercados.plantarMercados()
     const maiz1 = new Maiz()
     const maiz2 = new Maiz()
-    const mercado = granja.mercandoEn(game.at(0,0))
+    const mercado = managerMercados.mercandoEn(game.at(0,0))
     hector.sembrar(maiz1)
     hector.sembrar(maiz2)
 
@@ -251,10 +254,10 @@ describe "Hector y los mercados" {
 
   }
   test "Hector intenta vender maiz y tomaco (precioTotal = 230). pero el mercado (3,0) no tiene suficiente oro" {
-    granja.plantarMercados()
+    managerMercados.plantarMercados()
     const maiz1 = new Maiz()
     const maiz2 = new Maiz()
-    const mercado = granja.mercandoEn(game.at(3,0))
+    const mercado = managerMercados.mercandoEn(game.at(3,0))
     hector.sembrar(maiz1)
     hector.sembrar(maiz2)
 

@@ -4,6 +4,8 @@ import cultivos.*
 import mercado.*
 import aspersor.*
 import granja.*
+import managerAspersores.*
+import managerMercados.*
 
 program farmville {
 	//  CONFIG	
@@ -21,10 +23,10 @@ program farmville {
 	keyboard.v().onPressDo({hector.vender()})
 	keyboard.a().onPressDo({hector.plantarAspersor(new Aspersor())})
 	//  VISUALES
-	granja.plantarMercados()
+	managerMercados.plantarMercados()
  	game.addVisualCharacter(hector)
 	
-	game.onTick(1000, "riego", { granja.aspersoresRegar() })
+	game.onTick(1000, "riego", { managerAspersores.aspersoresRegar() })
 
  	//  COMIENZA
 	game.start()
